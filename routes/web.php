@@ -30,3 +30,7 @@ Route::post('/admins/reset_password', [PasswordController::class,'reset_password
 
 
 Route::get('/admins/index', [AdminController::class,'index'])->name('admins.index');
+Route::get('/admins/profile', [AdminController::class,'profile'])->name('admins.profile');
+
+Route::post('/admins/change_password', [AdminController::class,'change_password'])->name('admins.change_password');
+Route::post('/admins/update', [AdminController::class,'update'])->name('admins.update');

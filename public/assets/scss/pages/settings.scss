@@ -1,0 +1,64 @@
+h4 {
+	font-size: $__font__size__18;
+	font-weight: $__medium;
+	@include margin-padding(0 0 5px 0, null);
+}
+.card-wrapper {
+	display: $__flex;
+	flex-direction: $__column;
+	row-gap: 20px;
+	.card-border {
+		border: 1px solid rgba(0,0,0,0.1);
+		@include rounded(10px);
+		.header-blk {
+			@extend %flex-card;
+			flex-wrap: $__wrap;
+			@include margin-padding(null, 20px);
+			border-bottom: 1px solid rgba(0,0,0,0.1);
+			.blk-start {
+				@extend %flex-li;
+				p {
+					@include margin-padding(0,0);
+					color: $__gray;
+				}
+			}
+			.blk-end {
+				@extend %flex-li;
+			}
+		}
+		.body-blk {
+			@include margin-padding(null, 20px);
+		}
+		.card-start {
+			@extend %flex-li;
+			h4 {
+				font-size: $__font__size__14;
+				font-weight: $__semibold;
+			}
+			p {
+				font-size: $__font__size__12;
+				@include margin-padding(0,0);
+				color: $__gray;
+			}
+			.icon-blk {
+				width: 50px;
+				height: 50px;
+				border:1px solid $__themeColor;
+				@include rounded(10px);
+				background-color: $__body;
+				color: $__themeColor;
+			}
+		}
+		.card-end {
+			@extend %flex-li;
+		}
+		&.card-template {
+			@include margin-padding(0 0 20px 0, 15px);
+		}
+	}
+
+}
+.flex-label {
+	display: $__flex;
+	align-items: $__center;
+}

@@ -43,7 +43,7 @@
                                     <div class="login-header">
                                         <img class="logo-blk" src="{{ asset('assets/img/logo.svg') }}" alt="">
                                         <h4>Login</h4>
-                                        
+
                                         <p>Hello <img class="me-1" src="{{ asset('assets/img/hai-icon.svg') }}" alt=""><span>Enter Details to continue</span></p>
                                     </div>
                                     <!-- Login Form -->
@@ -53,9 +53,7 @@
                                             <input class="form-control" name="email" type="text" placeholder="Email Address"
                                                 @if (isset($_COOKIE['email'])) value="{{ $_COOKIE['email'] }}" @else value="{{ old('email') }}" @endif>
                                             @error('email')
-                                                <span>
-                                                    <p class='text-danger'>{{ $message }}</p>
-                                                </span>
+                                                <p class='text-danger'>{{ $message }}</p>
                                             @enderror
                                         </div>
                                         <div class="form-set">

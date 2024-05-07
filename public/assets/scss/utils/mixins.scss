@@ -3,15 +3,19 @@ $breakpoints: (
   sm: 568px,
   md: 768px,
   lg: 1024px,
+  custom360: 353px,
+  custom479: 479px,
+  custom575: 575px,
+  custom767: 767px,
+  custom991: 991px,
   custom992: 992px,
-  custom1199: 1199.98px,
-  custom1399: 1399.98px,
-  custom991: 991.98px,
-  custom767: 767.98px,
-  custom575: 575.98px,
-  custom320: 320.98px,
+  custom1023: 1023px,
+  custom1024: 1024px,
+  custom1030: 1030px,
+  custom1280: 1280px,
+  custom1400: 1400px,
+  custom1440: 1440px,
 );
-
 // Respond above.
 @mixin respond-above($breakpoint) {
 
@@ -56,6 +60,8 @@ $breakpoints: (
   }
 }
 
+
+
 @mixin transform($property) {
   transform: $property;
   -webkit-transform: $property;
@@ -88,6 +94,8 @@ $breakpoints: (
 }
 
 @mixin transition($__property) {
+  -moz-transition: $__property;
+	-o-transition: $__property;
   -webkit-transition: $__property;
   -ms-transition: $__property;
   transition: $__property;
@@ -130,21 +138,18 @@ $breakpoints: (
       opacity: 1;
   }
 }
+@mixin rounded($unit) {
+  border-radius: $unit;
+}
 
 /** Extends **/
-
 %equal-heights {
-  display: flex;
+  display: $__flex;
   display: -webkit-flex;
-  flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
+  flex-wrap: $__wrap;
+  -webkit-flex-wrap: $__wrap;
 }
 
-%ul_reset {
-  list-style:none;
-  padding:0;
-  margin:0;
-}
 .css-equal-heights {
 	@extend %equal-heights;
 }
@@ -152,105 +157,82 @@ $breakpoints: (
 .css-equal-content {
     @extend %equal-heights;
     color: red;
-    float: left;
+    float: $__left;
 }
+
 .align-center {
   @extend %flex-align-center;
 }
-%animation-effect-img {   
-  -webkit-transform: translateZ(0);
-  -moz-transform: translateZ(0);
-  transform: translateZ(0);
-  -moz-transition: all 2000ms cubic-bezier(.19, 1, .22, 1) 0ms;
-  -ms-transition: all 2000ms cubic-bezier(.19, 1, .22, 1) 0ms;
-  -o-transition: all 2000ms cubic-bezier(.19, 1, .22, 1) 0ms;
-  -webkit-transition: all 2000ms cubic-bezier(.19, 1, .22, 1) 0ms;
-  transition: all 2000ms cubic-bezier(.19, 1, .22, 1) 0ms;
-}
-%animation-effect-img-hover {   
-  -webkit-transform: scale(1.35) rotate(15deg);
-  -moz-transform: scale(1.35) rotate(15deg);
-   transform: scale(1.35) rotate(15deg);
-}
-%animation-effect {   
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -o-transition: all 0.5s;
-  transition: all 0.5s;
-}
-%justify-content-center {  
-  justify-content: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-}
-%align-items-center {  
-  align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-}
-%justify-content-between {  
-  justify-content: space-between;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: space-between;
-}
-%flex-align-center {
-  display: flex;
+
+%flex-align-center{
+  display: $__flex;
   display: -webkit-flex;
   align-items:center;
   -webkit-align-items:center;
-  justify-content: center;
-  -webkit-justify-content: center;
+  justify-content: $__center;
+  -webkit-justify-content: $__center;
 }
-%justify-content-spacebetween {
-    justify-content: space-between;
-    -webkit-justify-content: space-between;
-    -ms-flex-pack: space-between;
+
+.flex-card {
+  @extend %flex-card;
+  flex-wrap: $__wrap;
 }
+
+%flex-card{
+  display: $__flex;
+  display: -webkit-flex;
+  align-items:center;
+  -webkit-align-items:center;
+  column-gap: 20px;
+}
+
+.flex-li {
+  @extend %flex-li;
+}
+
+%flex-li{
+  display: $__flex;
+  display: -webkit-flex;
+  align-items:center;
+  -webkit-align-items:center;
+  column-gap: 7px;
+}
+
 %clear{
   content:"";
   display:table;
   clear:both;
 }
 
-%ul_reset {
+%ul_reset{
   list-style:none;
   padding:0;
   margin:0;
 }
 
-%full_width_height_div {
+%full_width_height_div{
   width:$__full__width;
   height:$__full__height;
 }
-%inline-flex {  
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-}
-%display-flex {  
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-%display-flex-between {  
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  justify-content: space-between;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: space-between;
-}
+
+%table_truncate{
+    text-overflow: $__ellipsis;
+    max-width: 257px;
+    overflow: $__hidden;
+  }
+
 %display-flex-center-between {  
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  justify-content: space-between;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: space-between;
-  align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-}
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: space-between;
+    align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+  }
+  
 %display-flex-center {  
   display: -webkit-box;
   display: -ms-flexbox;
@@ -258,57 +240,4 @@ $breakpoints: (
   align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
-}
-%jusflex-end {
-  justify-content: flex-end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: flex-end;
-}
-%jusflex-start {
-  justify-content: start;
-  -webkit-justify-content: start;
-  -ms-flex-pack: start;
-}
-%justify-content-between {  
-  justify-content: space-between;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: space-between;
-}
-%justify-content-around {  
-  justify-content: space-around;
-  -webkit-justify-content: space-around;
-  -ms-flex-pack: space-around;
-}
-%flex-wrap {  
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-%flex-end {  
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-}
-%flex-column {  
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-%flex-row {  
-  -ms-flex-direction: row;
-  flex-direction: row;
-}
-@mixin rounded($unit) {
-  border-radius: $unit;
-}
-@mixin transform-origin($property) {
-  transform-origin: $property;
-  -webkit-transform-origin: $property;
-  -ms-transform-origin: $property;
-}
-@mixin box-shadow($__inset:inset,$__horizontaloffset:10px,$__verticaloffset:10px,$blur:10px,$__spread:10px,$__color: #000000) {
-  -webkit-box-shadow: $__inset $__horizontaloffset $__verticaloffset $blur $__spread $__color;
-  -moz-box-shadow: $__inset $__horizontaloffset $__verticaloffset $blur $__spread $__color;
-  box-shadow: $__inset $__horizontaloffset $__verticaloffset $blur $__spread $__color;
-}
-@mixin rounded($unit) {
-  border-radius: $unit;
 }
