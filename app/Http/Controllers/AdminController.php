@@ -32,7 +32,7 @@ class AdminController extends Controller
                 setcookie('rememberme', '', time() + 3600);
             }
             $request->session()->regenerate();
-            return view('welcome')->with('success', 'Login successfully...');
+            return redirect(route('admins.index'))->with('success', 'Login successfully...');
         }
         return back()->with('error', 'Invalid Username or Password...');
     }
