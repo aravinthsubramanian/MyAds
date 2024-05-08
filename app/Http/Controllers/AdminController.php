@@ -67,7 +67,7 @@ class AdminController extends Controller
                     setcookie('rememberme', '', time() + 3600);
                 }
                 $request->session()->regenerate();
-                return redirect(route('admin.index'))->with('success', 'Login successfully...');
+                return redirect(route('admin.profile'))->with('success', 'Login successfully...');
             }
             // else {
             //     RateLimiter::hit($this->throttleKey($request));

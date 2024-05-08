@@ -19,7 +19,7 @@ class AdminAuthentication
         if(Auth::check()) {
             return $next($request);
         } else {
-            return redirect(route('admins.login'));
+            return redirect(route('admin.login'));
         }
     }
 }

@@ -17,7 +17,7 @@ class LoginCheck
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            return redirect(route('admins.index'));
+            return redirect(route('admin.profile'));
         } else {
             return $next($request);
         }
