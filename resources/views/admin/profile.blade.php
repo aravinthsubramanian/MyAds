@@ -37,7 +37,7 @@
                                                 </div>
                                                 <a class="profile-img-del" href="javascript:void(0)"><i class="fa-regular fa-trash-can"></i></a>
                                             </div>
-                                            {{-- <img id="my-image" src="#"/> --}}
+                                            {{-- <img id="crop-image" src="#"/> --}}
 
                                             <div class="profile-form">
                                                 <form action="{{ route('admin.update') }}" method="POST">
@@ -174,15 +174,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Crop and Resize Profile Image</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Upload Profile Image</h5>
                     <button class="btn-close" data-bs-dismiss="modal" type="button" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <img id="crop-image" />
+                    <div id="image_demo"></div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
-                    <button class="btn btn-primary" type="submit">Save changes</button>
+                    <button class="btn btn-primary crop_image" type="button">Save changes</button>
                 </div>
             </div>
         </div>
@@ -193,46 +193,61 @@
     @include('layouts.admin.script')
 
     <script>
-        function readURL(input) {
-            if (input.files && input.files[0]) {
+        $(document).ready(function() {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
+                }
+            });
+
+            $image_crop = $('#image_demo').croppie({
+                enableExif: true,
+                viewport: {
+                    width: 200,
+                    height: 200,
+                    type: 'circle' //circle
+                },
+                boundary: {
+                    width: 300,
+                    height: 300
+                }
+            });
+
+            $('#profile_image').on('change', function() {
                 var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#crop-image').attr('src', e.target.result);
-
-                    $('#imageModel').modal('show');
-
-                    var resize = new Croppie($('#crop-image')[0], {
-                        enableExif: true,
-                        viewport: {
-                            width: 200,
-                            height: 200,
-                            type: 'circle'
-                        },
-                        boundary: {
-                            width: 300,
-                            height: 300
-                        },
-
-                        enableOrientation: true
-                    });
-
-                    resize.result('base64').then(function(dataImg) {
-                        var data = [{
-                            image: dataImg
-                        }, {
-                            name: 'myimgage.jpg'
-                        }];
-                        // use ajax to send data to php
-                        // $('#result').attr('src', dataImg);
-                        // $('#imgInp').attr('value', dataImg);
+                reader.onload = function(event) {
+                    $('#imageModel').on('shown.bs.modal', function() {
+                        $image_crop.croppie('bind', {
+                            url: event.target.result
+                        });
                     });
                 }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+                reader.readAsDataURL(this.files[0]);
+                $('#imageModel').modal('show');
+            });
 
-        $("#profile_image").change(function() {
-            readURL(this);
+            // $('.crop_image').click(function(event) {
+            //     alert("Success");
+            //     $image_crop.croppie('result', {
+            //         type: 'canvas',
+            //         size: 'viewport'
+            //     }).then(function(response) {
+            //         $.ajax({
+            //             url: '{{ route('admin.update_profile_image') }}',
+            //             type: 'POST',
+            //             data: {
+            //                 '_token': $('meta[name="csrf-token"]').attr('content'),
+            //                 'image': response
+            //             },
+            //             success: function(data) {
+            //                 $('#imageModel').modal('hide');
+            //                 alert('Crop image has been uploaded');
+            //             }
+            //         })
+            //     });
+            // });
+
         });
     </script>
 

@@ -25,9 +25,8 @@
             <!-- Main CSS -->
             <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
             <!-- Croppie CSS -->
-            <link href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css" rel="stylesheet">
-            <!-- Croppie JS -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.js"></script>
+            <link href="{{ asset('assets/css/croppie.css') }}" rel="stylesheet">
+            
         @endif
 
         @if ($page == 'admin.categories')

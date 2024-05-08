@@ -19,6 +19,8 @@
     <script src="{{ asset('assets/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
     <!-- Custom JS -->
     <script src="{{ asset('assets/js/admin.js') }}"></script>
+    <!-- Croppie JS -->
+    <script src="{{ asset('assets/js/croppie.js')}}"></script>
 @endif
 
 @if ($page == 'admin.categories')
