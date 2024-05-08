@@ -45,7 +45,7 @@
                                 </div>
 
                                 <!-- Login Form -->
-                                <form action="{{ route('admins.get_link') }}" method="POST">
+                                <form action="{{ route('admin.get_link') }}" method="POST">
                                     @csrf
                                     <div class="form-set">
                                         <input class="form-control" name="email" type="text" value="{{ old('email') }}" placeholder="Email Address">
@@ -55,7 +55,7 @@
                                     </div>
                                     <button class="btn btn-primary w-100 login-btn" type="submit">Get Link</button>
                                     <div class="register-link text-center">
-                                        <p>No issues return to <a class="forgot-link" href="{{ route('admins.login') }}">Login</a></p>
+                                        <p>No issues return to <a class="forgot-link" href="{{ route('admin.login') }}">Login</a></p>
                                     </div>
                                 </form>
                                 <!-- /Login Form -->

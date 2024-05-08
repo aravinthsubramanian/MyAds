@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Middleware\AdminAuthentication;
 use App\Http\Middleware\LoginCheck;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
@@ -16,21 +18,42 @@ use App\Http\Controllers\PasswordController;
 |
 */
 
-Route::get('/', [AdminController::class, 'login'])->name('admins.login')->middleware(LoginCheck::class);
 
-Route::get('/admins/login', [AdminController::class,'login'])->name('admins.login')->middleware(LoginCheck::class);
-Route::get('/admins/logout', [AdminController::class,'logout'])->name('admins.logout');
-Route::post('/admins/authentication', [AdminController::class,'authentication'])->name('admins.authentication');
+// ADMIN Routes..................................................................................
 
-Route::post('/admins/get_link', [PasswordController::class,'get_link'])->name('admins.get_link');
-Route::get('/admins/forgot_password', [PasswordController::class,'forgot_password'])->name('admins.forgot_password');
+// Route::post('/admin/authentication', [AdminController::class, 'authentication'])->name('admin.authentication')->middleware('throttle:3,2');
+Route::post('/admin/authentication', [AdminController::class, 'authentication'])->name('admin.authentication');
 
-Route::get('/admins/reset_link/{token}', [PasswordController::class,'reset_link'])->name('admins.reset_link');
-Route::post('/admins/reset_password', [PasswordController::class,'reset_password'])->name('admins.reset_password');
+Route::post('/admin/get_link', [PasswordController::class, 'get_link'])->name('admin.get_link');
+Route::get('/admin/forgot_password', [PasswordController::class, 'forgot_password'])->name('admin.forgot_password');
+
+Route::get('/admin/reset_link/{token}', [PasswordController::class, 'reset_link'])->name('admin.reset_link');
+Route::post('/admin/reset_password', [PasswordController::class, 'reset_password'])->name('admin.reset_password');
+
+Route::middleware([LoginCheck::class])->group(function () {
+
+    Route::get('/', [AdminController::class, 'login'])->name('admin.login');
+    Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
+});
+
+Route::middleware([AdminAuthentication::class])->group(function () {
+
+    Route::get('/admin/index', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
+
+    Route::post('/admin/change_password', [AdminController::class, 'change_password'])->name('admin.change_password');
+    Route::post('/admin/update', [AdminController::class, 'update'])->name('admin.update');
+
+    Route::post('/admin/update_profile_image', [AdminController::class,'update_profile_image'])->name('admin.update_profile_image');
 
 
-Route::get('/admins/index', [AdminController::class,'index'])->name('admins.index');
-Route::get('/admins/profile', [AdminController::class,'profile'])->name('admins.profile');
 
-Route::post('/admins/change_password', [AdminController::class,'change_password'])->name('admins.change_password');
-Route::post('/admins/update', [AdminController::class,'update'])->name('admins.update');
+
+    Route::get('/admin/categories', [CategoryController::class,'categories'])->name('admin.categories');
+    Route::post('/admin/addcategory', [CategoryController::class,'addcategory'])->name('admin.addcategory'); 
+
+
+
+
+    Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+});

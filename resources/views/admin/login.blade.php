@@ -30,6 +30,12 @@
     <body>
 
         <div class="main-wrapper flex-login forgot-password">
+            
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <div>{{ $error }}</div>
+                @endforeach
+            @endif
 
             <!-- Login image -->
             <div class="login-img-wrapper">
@@ -47,7 +53,7 @@
                                         <p>Hello <img class="me-1" src="{{ asset('assets/img/hai-icon.svg') }}" alt=""><span>Enter Details to continue</span></p>
                                     </div>
                                     <!-- Login Form -->
-                                    <form action="{{ route('admins.authentication') }}" method="POST">
+                                    <form action="{{ route('admin.authentication') }}" method="POST">
                                         @csrf
                                         <div class="form-set">
                                             <input class="form-control" name="email" type="text" placeholder="Email Address"
@@ -66,9 +72,11 @@
                                                 <p class='text-danger'>{{ $message }}</p>
                                             @enderror
                                         </div>
+
                                         @if (session()->has('error'))
                                             <p class='text-danger'>{{ session('error') }}</p>
                                         @endif
+
                                         <div class="row">
                                             <div class="col-md-6 col-sm-6">
                                                 <label class="custom_check">
@@ -78,7 +86,7 @@
                                             </div>
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="text-md-end">
-                                                    <a class="forgot-link" href="{{ route('admins.forgot_password') }}">Forgot password?</a>
+                                                    <a class="forgot-link" href="{{ route('admin.forgot_password') }}">Forgot password?</a>
                                                 </div>
                                             </div>
                                         </div>

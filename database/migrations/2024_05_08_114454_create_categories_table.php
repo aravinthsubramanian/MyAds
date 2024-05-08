@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function($table) {
-            $table->string('name')->nullable()->change();
-            $table->string('mobile')->nullable()->after('name');
-            $table->string('image')->nullable()->after('email');
-            $table->integer('type')->nullable()->after('image');
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('category');
+            $table->string('category_slug');
+            $table->integer('status');
+            $table->timestamps();
         });
     }
 
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('categories');
     }
 };

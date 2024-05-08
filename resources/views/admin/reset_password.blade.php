@@ -45,7 +45,7 @@
                                 </div>
 
                                 <!-- Login Form -->
-                                <form action="{{ route('admins.reset_password') }}" method="POST">
+                                <form action="{{ route('admin.reset_password') }}" method="POST">
                                     @csrf
                                     <input id="token" name="token" type="text" value="{{ $token }}" hidden>
                                     <div class="form-set">
@@ -77,7 +77,7 @@
                                     @endif
                                     <button class="btn btn-primary w-100 login-btn" type="submit">Change Password</button>
                                     <div class="register-link text-center">
-                                        <p>No issues return to <a class="forgot-link" href="{{ route('admins.login') }}">Login</a></p>
+                                        <p>No issues return to <a class="forgot-link" href="{{ route('admin.login') }}">Login</a></p>
                                     </div>
                                 </form>
                                 <!-- /Login Form -->
