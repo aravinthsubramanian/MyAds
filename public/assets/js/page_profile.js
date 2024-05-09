@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    $("#profile_delete").on("click", function () {
+        $("#delete-item").modal("show");
+    });
+
     $.ajaxSetup({
         headers: {
             "X-CSRF-TOKEN": $('meta[name="token"]').attr("content"),

@@ -43,16 +43,11 @@ Route::middleware([AdminAuthentication::class])->group(function () {
     Route::post('/admin/change_password', [AdminController::class, 'change_password'])->name('admin.change_password');
     Route::post('/admin/update', [AdminController::class, 'update'])->name('admin.update');
 
+    Route::get('/admin/delete_profile_image', [AdminController::class,'delete_profile_image'])->name('admin.delete_profile_image');
     Route::post('/admin/update_profile_image', [AdminController::class,'update_profile_image'])->name('admin.update_profile_image');
-
-
-
 
     Route::get('/admin/categories', [CategoryController::class,'categories'])->name('admin.categories');
     Route::post('/admin/addcategory', [CategoryController::class,'addcategory'])->name('admin.addcategory'); 
-
-
-
 
     Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 });

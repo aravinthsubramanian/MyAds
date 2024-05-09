@@ -35,9 +35,8 @@
                                                     </div>
                                                     <span>Max file size: 10 MB</span>
                                                 </div>
-                                                <a class="profile-img-del" href="javascript:void(0)"><i class="fa-regular fa-trash-can"></i></a>
+                                                <a class="profile-img-del" id="profile_delete" href="javascript:void(0)"><i class="fa-regular fa-trash-can"></i></a>
                                             </div>
-                                            {{-- <img id="crop-image" src="#"/> --}}
 
                                             <div class="profile-form">
                                                 <form action="{{ route('admin.update') }}" method="POST">
@@ -148,17 +147,19 @@
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Services</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Profile Image</h5>
                     <button class="btn-close close-modal" data-bs-dismiss="modal" type="button" aria-label="Close">
                         <i class="fe fe-x"></i>
                     </button>
                 </div>
-                <form action="listings.html">
+                <form action="{{route('admin.delete_profile_image')}}" method="GET">
+                    @csrf
                     <div class="modal-body py-0">
                         <div class="del-modal">
                             <p>Are you sure want to Delete?</p>
                         </div>
                     </div>
+                    <br>
                     <div class="modal-footer pt-0">
                         <button class="btn btn-cancel" data-bs-dismiss="modal" type="button">Cancel</button>
                         <button class="btn btn-submit" type="submit">Yes</button>

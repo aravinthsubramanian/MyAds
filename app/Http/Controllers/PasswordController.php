@@ -22,25 +22,24 @@ class PasswordController extends Controller
         $request->validate([
             'email' => 'required|email:rfc,dns|exists:users,email',
         ]);
-        $email = $request->input('email');
-        $results = DB::table('password_reset_tokens')->where('email', $email)->first();
+        $results = DB::table('password_reset_tokens')->where('email', $request->input('email'))->first();
         if (!empty($results)) {
             $time_difference = number_format(floatval(date('i', strtotime(Carbon::now()->toDateTimeString()) - strtotime($results->created_at))));
             if ($time_difference < 5)
                 return back()->with("error", "So many attempts try again later...");
         }
-        DB::table('password_reset_tokens')->where([['email', $email]])->delete();
+        DB::table('password_reset_tokens')->where([['email', $request->input('email')]])->delete();
         $token = Str::random(64);
-        Mail::send("email.forgot_mail", ['token' => $token, 'email' => $email], function ($message) use ($email) {
-            $message->to($email);
+        Mail::send("email.forgot_mail", ['token' => $token, 'email' => $request->input('email')], function ($message) use ($request) {
+            $message->to($request->input('email'));
             $message->subject("Reset password");
         });
-        DB::table('password_reset_tokens')->insert(['email' => $email, 'token' => $token, 'created_at' => Carbon::now()]);
+        DB::table('password_reset_tokens')->insert(['email' => $request->input('email'), 'token' => $token, 'created_at' => Carbon::now()]);
         return back()->with("success", "Email send successfully");
     }
 
     public function reset_link(Request $request, $token) {
-        $email = $request->email;
+        $email = $request->input('email');
         return view('admin.reset_password', compact('token', 'email'));
     }
 
@@ -51,13 +50,13 @@ class PasswordController extends Controller
             'confirmpassword' => ['required', Password::min(6)->max(18)->mixedCase()->numbers()->symbols(), 'same:newpassword'],
         ]);
         
-        $updatepassword = DB::table('password_reset_tokens')->where([['email', $request->email], ['token', $request->token]])->first();
+        $updatepassword = DB::table('password_reset_tokens')->where([['email', $request->input('email')], ['token', $request->input('token')]])->first();
         if (!$updatepassword) {
             return back()->with("error", "Link expired request new link....");
         }
 
-        User::where('email', $request->email)->update(["password" => Hash::make($request->newpassword)]);
-        DB::table('password_reset_tokens')->where([['email', $request->email]])->delete();
+        User::where('email', $request->input('email'))->update(["password" => Hash::make($request->input('newpassword'))]);
+        DB::table('password_reset_tokens')->where([['email', $request->input('email')]])->delete();
         return redirect()->to(route('admins.login'))->with("success", "Password reset successfully....");
     }
 }

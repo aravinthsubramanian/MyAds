@@ -31,10 +31,7 @@ class AdminController extends Controller
             'password' => 'required'
         ]);
 
-        $email = $request->input('email');
-        $password = $request->input('password');
-
-        $credentials = ['email' => $email, 'password' => $password];
+        $credentials = ['email' => $request->input('email'), 'password' => $request->input('password')];
         // if (Auth::attempt($credentials)) {
         //     if (isset($request->rememberme) && !empty($request->rememberme)) {
         //         setcookie('email', $email, time() + 3600);
@@ -59,8 +56,8 @@ class AdminController extends Controller
         try {
             if (Auth::attempt($credentials)) {
                 if (isset($request->rememberme) && !empty($request->rememberme)) {
-                    setcookie('email', $email, time() + 3600);
-                    setcookie('password', $password, time() + 3600);
+                    setcookie('email', $request->input('email'), time() + 3600);
+                    setcookie('password', $request->input('password'), time() + 3600);
                     setcookie('rememberme', 'on', time() + 3600);
                 } else {
                     setcookie('email', '', time() + 3600);
@@ -103,10 +100,10 @@ class AdminController extends Controller
         ]);
 
         $user = Auth::user();
-        $credentials = ['email' => $user->email, 'password' => $request->password];
+        $credentials = ['email' => $user->email, 'password' => $request->input('password')];
         if (Auth::validate($credentials)) {
             $user = User::find($user->id);
-            $user->password = Hash::make($request->newpassword);
+            $user->password = Hash::make($request->input('newpassword'));
             $user->update();
             return redirect(route('admin.profile'))->with('success', 'Password changed successfully!');
         }
@@ -122,8 +119,8 @@ class AdminController extends Controller
 
         $user = Auth::user();
         $user = User::find($user->id);
-        $user->name = $request->name;
-        $user->mobile = $request->mobile;
+        $user->name = $request->input('name');
+        $user->mobile = $request->input('mobile');
         $user->update();
         return redirect(route('admin.profile'))->with('success', 'Profile updated successfully!');
     }
@@ -134,14 +131,14 @@ class AdminController extends Controller
         if (!File::isDirectory(public_path($path))) {
             File::makeDirectory(public_path($path), 0777, true, true);
         }
-
-        $image_parts = explode(";base64,", $request->image);
+        $image = $request->image;
+        $image_parts = explode(";base64,", $image);
         $image_base64 = base64_decode($image_parts[1]);
         $imageName = uniqid() . '.png';
-        
+
         $imageFullPath = public_path($path) . $imageName;
-        $path = $path.$imageName;
-        $path = str_replace('\\','/',$path);
+        $path = $path . $imageName;
+        $path = str_replace('\\', '/', $path);
         file_put_contents($imageFullPath, $image_base64);
 
         $user = Auth::user();
@@ -150,6 +147,20 @@ class AdminController extends Controller
         $user->update();
 
         return response()->json(['success' => 'Image Updated Successfully']);
+    }
+
+    public function delete_profile_image()
+    {
+        $user = Auth::user();
+        $user = User::find($user->id);
+
+        if (file_exists(public_path($user->image))) {
+            $filedeleted = unlink(public_path($user->image));
+            $user->image = Null;
+            $user->update();
+            return redirect(route('admin.profile'))->with('success', 'Profile deleted successfully!');
+        }
+        return redirect(route('admin.profile'))->with('error', 'Profile image unavailable..');
     }
 
     public function logout(Request $request)
