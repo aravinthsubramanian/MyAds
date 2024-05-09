@@ -31,8 +31,7 @@ Route::get('/admin/reset_link/{token}', [PasswordController::class, 'reset_link'
 Route::post('/admin/reset_password', [PasswordController::class, 'reset_password'])->name('admin.reset_password');
 
 Route::middleware([LoginCheck::class])->group(function () {
-
-    Route::get('/', [AdminController::class, 'login'])->name('admin.login');
+    Route::get('/', [AdminController::class, 'login']);
     Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
 });
 

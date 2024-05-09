@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\File;
 
 
 class AdminController extends Controller
@@ -129,24 +130,26 @@ class AdminController extends Controller
 
     public function update_profile_image(Request $request)
     {
-        $folderPath = public_path('upload/'); //create folder upload public/upload
+        $path = 'upload\profile\\';
+        if (!File::isDirectory(public_path($path))) {
+            File::makeDirectory(public_path($path), 0777, true, true);
+        }
 
         $image_parts = explode(";base64,", $request->image);
-        $image_type_aux = explode("image/", $image_parts[0]);
-        $image_type = $image_type_aux[1];
         $image_base64 = base64_decode($image_parts[1]);
-
         $imageName = uniqid() . '.png';
-
-        $imageFullPath = $folderPath . $imageName;
-
+        
+        $imageFullPath = public_path($path) . $imageName;
+        $path = $path.$imageName;
+        $path = str_replace('\\','/',$path);
         file_put_contents($imageFullPath, $image_base64);
 
-        $saveFile = new Image;
-        $saveFile->title = $imageName;
-        $saveFile->save();
+        $user = Auth::user();
+        $user = User::find($user->id);
+        $user->image = $path;
+        $user->update();
 
-        return response()->json(['success' => 'Crop Image Saved/Uploaded Successfully']);
+        return response()->json(['success' => 'Image Updated Successfully']);
     }
 
     public function logout(Request $request)

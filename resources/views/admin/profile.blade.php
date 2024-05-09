@@ -27,7 +27,7 @@
                                             <div class="profile-photo">
                                                 <div class="profile-img">
                                                     <div class="settings-upload-img">
-                                                        <img src="{{ asset('assets/img/profile-img.jpg') }}" alt="profile">
+                                                        <img src="@if (file_exists($user->image)) {{ asset($user->image) }} @else {{ asset('assets/img/profile-img.jpg') }} @endif" alt="Profile">
                                                     </div>
                                                     <div class="settings-upload-btn">
                                                         <input class="hide-input image-upload" id="profile_image" name="image" type="file" accept="image/*">
@@ -191,65 +191,6 @@
 
     <!-- Scripts  -->
     @include('layouts.admin.script')
-
-    <script>
-        $(document).ready(function() {
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="token"]').attr('content')
-                }
-            });
-
-            $image_crop = $('#image_demo').croppie({
-                enableExif: true,
-                viewport: {
-                    width: 200,
-                    height: 200,
-                    type: 'circle' //circle
-                },
-                boundary: {
-                    width: 300,
-                    height: 300
-                }
-            });
-
-            $('#profile_image').on('change', function() {
-                var reader = new FileReader();
-                reader.onload = function(event) {
-                    $('#imageModel').on('shown.bs.modal', function() {
-                        $image_crop.croppie('bind', {
-                            url: event.target.result
-                        });
-                    });
-                }
-                reader.readAsDataURL(this.files[0]);
-                $('#imageModel').modal('show');
-            });
-
-            // $('.crop_image').click(function(event) {
-            //     alert("Success");
-            //     $image_crop.croppie('result', {
-            //         type: 'canvas',
-            //         size: 'viewport'
-            //     }).then(function(response) {
-            //         $.ajax({
-            //             url: '{{ route('admin.update_profile_image') }}',
-            //             type: 'POST',
-            //             data: {
-            //                 '_token': $('meta[name="csrf-token"]').attr('content'),
-            //                 'image': response
-            //             },
-            //             success: function(data) {
-            //                 $('#imageModel').modal('hide');
-            //                 alert('Crop image has been uploaded');
-            //             }
-            //         })
-            //     });
-            // });
-
-        });
-    </script>
 
 </body>
 

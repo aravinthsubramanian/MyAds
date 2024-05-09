@@ -21,6 +21,8 @@
     <script src="{{ asset('assets/js/admin.js') }}"></script>
     <!-- Croppie JS -->
     <script src="{{ asset('assets/js/croppie.js')}}"></script>
+    <!-- Page JS -->
+    <script src="{{ asset('assets/js/page_profile.js')}}"></script>
 @endif
 
 @if ($page == 'admin.categories')
